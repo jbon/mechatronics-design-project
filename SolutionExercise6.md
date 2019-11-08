@@ -80,6 +80,7 @@ Issues:
 - vertical and horizontal cuts are abitrary and may not be optimal
 - how to identify whether a magnet has been linked more than one time already?
 - how to identify the two nodes that need to be linked so we can close the loop?
+- why not closing the loop at each stage instead only at the end?
 
 # Algorithm #4
 
@@ -87,6 +88,7 @@ Improvements:
 - Instead of cutting alternatively along x or y, we "can find in which of the two dimensions the points have a larger spread, and then find the median point along that dimension." (solution from Guy Blelloch, Carnegie Mellon University, School of Computer Science, from his lecture "[Parallel and Sequential Data Structures and Algorithms](http://www.cs.cmu.edu/afs/cs/academic/class/15210-f12/www/lectures/lecture04.pdf)")
 - we use the adjacencyMatrix to identify which magnets have already been linked two times
 - we use the adjacencyMatrix to identify both magnets to link to close the loop
+- instead of creating open paths, we create closed paths from the begining on, and we reopen them to merge paths
 
 ```
 function adjacencyMatrix = divideAndConquer(groupOfMagnets of size n)
@@ -94,7 +96,9 @@ function adjacencyMatrix = divideAndConquer(groupOfMagnets of size n)
         do nothing
     else if n = 2
         create a link between both magnets
-    else (n > 2)
+    else if n = 3 
+    	close the triad
+    else (n > 3)
     	sort(magnets, dimension x)
         determine spreadX
         sort(magnets, dimension y)
@@ -111,17 +115,8 @@ function adjacencyMatrix = divideAndConquer(groupOfMagnets of size n)
             group2 = groupOfMagnets(ceil(n/2):n)
         adjMat1 = divideAndConquer(group1)
         adjMat2 = divideAndconquer(group2)
-    	candidate1 = (Inf, Inf)
-        candidate2 = (-Inf, -Inf)
-        for each m1 in group1
-        	if m1 linked only one time in adjMat1
-	    		for each m2 in group2
-    	        	if dist(m1, m2) < dist(candidate1, candidate2)
-        	        and m2 linked only one time in adjMat2
-                        candidate1 = m1
-                        candidate2 = m2
-        create adjacencyMatrix based on adjMat1 and adjMat2
-        link candidate1 and candidate2 in adjacencyMatrix
+    	based on adjMat1 and adjMat2
+        	merge both subgraphs by replacing links and create a closed graph
         return adjacencyMatrix
 endfunc
 lineEnds = []
@@ -132,4 +127,4 @@ link both elements in lineEnds
 ```
 
 Issues:
-- vertical and horizontal cuts are abitrary and may not be optimal
+- how to find the best links to replace?
