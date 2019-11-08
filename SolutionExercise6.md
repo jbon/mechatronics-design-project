@@ -84,25 +84,33 @@ Issues:
 # Algorithm #4
 
 Improvements:
+- Instead of cutting alternatively along x or y, we "can find in which of the two dimensions the points have a larger spread, and then find the median point along that dimension." (solution from Guy Blelloch, Carnegie Mellon University, School of Computer Science, from his lecture "[Parallel and Sequential Data Structures and Algorithms](http://www.cs.cmu.edu/afs/cs/academic/class/15210-f12/www/lectures/lecture04.pdf)")
 - we use the adjacencyMatrix to identify which magnets have already been linked two times
 - we use the adjacencyMatrix to identify both magnets to link to close the loop
 
 ```
-function adjacencyMatrix = divideAndConquer(groupOfMagnets of size n, boolValue)
+function adjacencyMatrix = divideAndConquer(groupOfMagnets of size n)
     if n = 1
         do nothing
     else if n = 2
         create a link between both magnets
     else (n > 2)
-    	sort(magnets, dimension=boolValue)
+    	sort(magnets, dimension x)
+        determine spreadX
+        sort(magnets, dimension y)
+        determine spreadY
+        if spreadX > spreadY
+        	cutDimension = x
+        else
+        	cutDimension = y
         if n even
             group1 = groupOfMagnets(1:n/2)
             group2 = groupOfMagnets(n/2+1:n)
         else (number of magnets is odd)
             group1 = groupOfMagnets(1:floor(n/2)
             group2 = groupOfMagnets(ceil(n/2):n)
-        adjMat1 = divideAndConquer(group1, boolValue==false)
-        adjMat2 = divideAndconquer(group2, boolValue==false)
+        adjMat1 = divideAndConquer(group1)
+        adjMat2 = divideAndconquer(group2)
     	candidate1 = (Inf, Inf)
         candidate2 = (-Inf, -Inf)
         for each m1 in group1
