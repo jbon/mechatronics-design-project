@@ -1,4 +1,5 @@
 # Algorithm #1
+
 ```
 if n = 1
 	do nothing
@@ -16,7 +17,6 @@ else (n > 2)
 Issues:
 - how to separate the magnets into groups?
 - we need a function to make the recursion
-
 
 # Algorithm #2
 
@@ -49,7 +49,6 @@ Issues:
 - not clever to cut the plane along the same direction each time. Better to alternate, vertical, horizontal
 - we need to close the loop at the end
 
-
 # Algorithm #3
 
 Improvements :
@@ -77,7 +76,6 @@ function divideAndConquer(groupOfMagnets of size n, boolValue)
 endfunc
 close the loop
 ```
-
 Issues:
 - vertical and horizontal cuts are abitrary and may not be optimal
 - how to identify whether a magnet has been linked more than one time already?
@@ -124,3 +122,6 @@ for m1 in groupOfMagnets
     	add m1 in lineEnds
 link both elements in lineEnds
 ```
+
+Issues:
+- vertical and horizontal cuts are abitrary and may not be optimal
